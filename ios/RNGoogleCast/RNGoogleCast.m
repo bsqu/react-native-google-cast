@@ -216,6 +216,16 @@ RCT_EXPORT_METHOD(seek : (int)playPosition) {
   }
 }
 
+RCT_REMAP_METHOD(getStreamPosition,
+                  getStreamPositionResolver: (RCTPromiseResolveBlock) resolve
+                  rejecter: (RCTPromiseRejectBlock) reject) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (castSession) {
+      resolve(@([castSession.remoteMediaClient approximateStreamPosition]));
+    }
+  });
+}
+
 #pragma mark - GCKSessionManagerListener events
 
 -(void)sessionManager:(GCKSessionManager *)sessionManager willStartCastSession:(GCKCastSession *)session {
@@ -273,7 +283,7 @@ RCT_EXPORT_METHOD(seek : (int)playPosition) {
     playbackStarted = false;
     playbackEnded = false;
   }
-    
+
   NSDictionary *status = @{
     @"playerState": @(mediaStatus.playerState),
     @"idleReason": @(mediaStatus.idleReason),
