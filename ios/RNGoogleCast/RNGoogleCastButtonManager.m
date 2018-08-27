@@ -12,6 +12,7 @@ RCT_EXPORT_MODULE()
 
 - (UIView *)view {
   GCKUICastButton *castButton = [[GCKUICastButton alloc] init];
+  [castButton setTintColor:[UIColor colorWithRed:0.69 green:0.41 blue:0.36 alpha:1.0]];
   return castButton;
 }
 
