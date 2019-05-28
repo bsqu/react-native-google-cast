@@ -45,6 +45,10 @@ RCT_EXPORT_MODULE();
   };
 }
 
++ (BOOL)requiresMainQueueSetup {
+    return YES;
+}
+
 - (NSArray<NSString *> *)supportedEvents {
   return @[
     SESSION_STARTING, SESSION_STARTED, SESSION_START_FAILED, SESSION_SUSPENDED,
@@ -229,7 +233,7 @@ RCT_REMAP_METHOD(getStreamPosition,
 #pragma mark - GCKSessionManagerListener events
 
 -(void)sessionManager:(GCKSessionManager *)sessionManager willStartCastSession:(GCKCastSession *)session {
-  [self sendEventWithName:SESSION_STARTING body:@{}];
+  [self sendEventWithName:SESSION_STARTED body:@{@"friendlyName": session.device.friendlyName}];
 }
 
 -(void)sessionManager:(GCKSessionManager *)sessionManager didStartCastSession:(GCKCastSession *)session {
